@@ -1,1 +1,134 @@
 Roll NO: 220340320045
+
+
+/* SECTION 1*/
+
+
+/* QUESTION 1*/
+create table DEPT(
+DEPTNO int(2) PRIMARY KEY,
+DANEME VARCHAR(15),
+LOC VARCHAR(10)
+);
+
+ALTER TABLE DEPT RENAME column DANEME TO DNAME;
+
+INSERT INTO DEPT VALUES
+(10, "ACCOUNTING", "NEW YORK"),
+(20,"RESEARCH","DALLAS"),
+(30,"SALES","CHICAGO"),
+(40,"OPERATIONS","BOSTON");
+
+SELECT * FROM DEPT;
+
+/* QUESTION 2*/
+CREATE TABLE EMP(
+EMPNO INT(4),
+ENAME VARCHAR(10),
+JOB VARCHAR(9),
+HIREDATE DATE,
+SAL FLOAT(7,2),
+COMM FLOAT(7,2),
+DEPTNO INT(2),
+PRIMARY KEY(EMPNO, DEPTNO),
+FOREIGN KEY(DEPTNO) references DEPT(DEPTNO)
+);
+
+
+
+INSERT INTO EMP VALUES
+(7839, "KING", "MANAGER",'1991-11-17',5000, NULL, 10),
+(7698, "BLAKE", "CLERK",'1981-05-01',2850, NULL, 30),
+(7782, "CLARK", "MANAGER",'1981-06-09',2450, NULL, 10),
+(7566,"JONES","CLERK",'1981-04-02',2975,NULL,20),
+(7654,"MARTIN","SALESMAN",'1981-09-28',1250,1400,30),
+(7499,"ALLEN","SALESMAN",'1981-02-20',1600,300,30);
+
+SELECT * FROM EMP;
+
+/*3. Display all the employees where SAL between 2500 and 5000 */
+SELECT * FROM EMP WHERE SAL >= 2500 AND SAL <= 5000;
+
+
+/* 4. Display all the ENAMEs in descending order of ENAME. */
+SELECT ENAME FROM EMP ORDER BY ENAME DESC;
+
+
+/* 5.Display all the JOBs in lowercase.*/
+SELECT lower(JOB) FROM EMP;
+
+/*6.Display the ENAMEs and the lengths of the ENAMEs. */
+SELECT ENAME, length(ENAME) AS LENGTH_ENAME FROM EMP;
+
+/*7.Display the DEPTNO and the count of employees who belong to that DEPTNO */
+SELECT DEPTNO, COUNT(DEPTNO) "EMPLOYESS COUNT"
+FROM EMP
+group by DEPTNO
+ORDER BY DEPTNO;
+
+/*8. Display the DNAMEs and the ENAMEs who belong to that DNAME.*/
+SELECT DNAME,ENAME 
+FROM EMP,DEPT
+WHERE DEPT.DEPTNO=EMP.DEPTNO;
+
+/*9. Display the position at which the string ‘AR’ occurs in the ename.*/
+SELECT ENAME,POSITION('AR' IN ENAME) 
+AS POSITION 
+FROM EMP;
+
+/*10. Display the HRA for each employee given that HRA is 20% of SAL.*/
+SELECT EMPNO,ENAME, SAL*0.2
+AS HRA
+FROM EMP;
+
+
+
+/* 										SECTION 2
+
+QUESTION 1: */
+CREATE TABLE TEMPP
+(
+String1 VARCHAR(15),
+String2 varchar(15),
+Result varchar(15)
+);
+
+delimiter //
+create procedure PROC1(STR1 VARCHAR(15), STR2 VARCHAR(15))
+begin
+declare X int;
+set X=instr(STER2,STR1);
+IF X > 0 THEN
+INSERT INTO TEMPP(String1,String2, Result) values
+(Str1,Str2,'Present');
+else
+insert into TEMPP(String1,String2, Result) values
+(Str1,Str2,'Not Present');
+end if;
+end; //
+delimiter ;
+
+CALL PROC1("DAC","CDAC");
+
+SELECT * FROM TEMPP;
+
+
+
+/* 						SECTION -2
+
+QUESTION 2*/
+delimiter //
+create function FUNC1(A FLOAT, B FLOAT, C FLOAT)
+RETURNS BOOLEAN
+DETERMINISTIC
+
+begin
+DECLARE X BOOLEAN;
+IF A > B+C AND B>A+C AND C>A+B THEN
+SET X=TRUE;
+ELSE
+SET X=FALSE;
+END IF;
+RETURN X;
+end; //
+delimiter ;
